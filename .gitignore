@@ -1,0 +1,11 @@
+test/temp/
+
+# etc
+gitignore/
+
+# Node.js
+node_modules/
+npm-debug.log
+
+# ChromeExtension
+*.pem
