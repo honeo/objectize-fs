@@ -1,6 +1,7 @@
 # document
 いわゆるメモ。
 
+
 ## 方針
 * 命名で悩んだらAliasにしてどっちも実装する。
 * パスから推測できるものは属性、そうでないものは非同期関数。
@@ -11,7 +12,6 @@
 * npm i でgraceful-fsが依存しているnativesが入らない。
 
 ## TODO
-* #pathを読み取り専用にする。
 * キャッシュのテスト
  * キャッシュモジュールとこれ両方にイベント実装したら書く。
 * RARとZIPでAPIが違うのを統一したい。
@@ -26,10 +26,9 @@
  * ZIPファイルの実体に引数インスタンスの実体を追加する。
 * ZIP#get('targetName');
  * ZIPファイルの実体から引数名の実体だけを展開する。
-* ZIP#list()
- * ZIPファイルの実体から内容物のリストを取り出す。
 * ZIP#remove('removeTargetName')
  * ZIPファイルの実体から引数名の実体を削除する。
+
 
 ## 廃止・ボツ案
 
@@ -66,6 +65,7 @@ dir.getFileList().delete(/\.ext$/); とかできるように。
 JSON#add(), remove(), get(), has()などで直接値を操作したかった。
 手間の割には役に立たない、大抵はオブジェクトでの入出力を一回ずつできればいいだけだし。
 
+
 ## キャッシュについて
 シンプルなLRU Cache実装。
 インスタンス生成時のフルパスをkey、インスタンスをvalueに持つ。
@@ -91,6 +91,7 @@ const {debug} = require('objectize-fs');
 debug(true); // on
 debug(false); // off
 ```
+
 
 ## 構造
 
@@ -127,6 +128,7 @@ debug(false); // off
 * example
  * テスト用のサンプルファイルいろいろ。
  * 暗号化のパスはpassword
+
 
 ## 依存モジュール
 * @honeo/check
