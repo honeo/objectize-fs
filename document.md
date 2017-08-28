@@ -152,5 +152,7 @@ debug(false); // off
  * Utilityの各getDir系メソッドとテスト用。
 * read-chunk
  * 拡張子の推測用。
+* trash
+ * ゴミ箱へ移動。Constractor#trash() に使う。
 * zip-unzip-promise
  * zip関連の実装。
