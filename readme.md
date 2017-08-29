@@ -118,6 +118,15 @@ await file.rename('new-filename.ext');
 ```
 
 
+#### Constractor#trash()
+自身の実体をゴミ箱に移動する。  
+移動後に解決するpromiseを返す。
+```js
+await dir.trach();
+
+await file.trach();
+```
+
 
 #### Constractor#zip([path])
 自身の実体を圧縮する。  

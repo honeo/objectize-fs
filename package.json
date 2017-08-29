@@ -19,9 +19,11 @@
     "file-type": "^5.2.0",
     "fs-extra": "^3.0.1",
     "jsonfile-promised": "0.0.1",
+    "natives": "^1.1.0",
     "opener": "^1.4.3",
     "ospath": "^1.2.2",
-    "read-chunk": "^2.0.0",
+    "read-chunk": "^2.1.0",
+    "trash": "^4.0.1",
     "unrar-promise": "^1.0.0",
     "zip-unzip-promise": "^1.1.0"
   },

@@ -9,6 +9,7 @@
 
 ## Bug
 * npm i でgraceful-fsが依存しているnativesが入らない。
+ * とりあえず本モジュール側の依存モジュールに入れて導入している。
 
 ## TODO
 * インスタンス生成を同期処理に
@@ -148,6 +149,8 @@ debug(false); // off
  * fs拡張版。
 * jsonfile-promised
  * json操作モジュールjsonfileのpromise版。
+* natives
+ * 依存Modの依存Modの依存Modだが不具合で入らないため、本モジュール側の依存に入れている。
 * ospath
  * Utilityの各getDir系メソッドとテスト用。
 * read-chunk

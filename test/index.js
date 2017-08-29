@@ -252,6 +252,15 @@ Test([
 	},
 
 	async function(){
+		console.log('Directory#trash()');
+		const dir = await Directory.make('./tmp');
+		const result = await dir.trash();
+		return is.true(
+			!fse.existsSync('./tmp')
+		);
+	},
+
+	async function(){
 		console.log('Directory#base');
 		const dir = await new Directory('./');
 		return dir.base===path.resolve('../');
@@ -475,6 +484,14 @@ Test([
 		return is.true(
 			is.num(size_before, size_after),
 			size_before < size_after
+		);
+	},
+	async function(){
+		console.log('File#trash()');
+		const file = await new File('hoge.txt');
+		const result = await file.trash();
+		return is.true(
+			!fse.existsSync('hoge.txt')
 		);
 	},
 	async function(){
@@ -748,11 +765,18 @@ Test([
 			rar instanceof RAR
 		);
 	},
+
 	async function(){
 		console.log('Utility.getDesktop()');
-		const dir_desktop = await Utility.getDesktop();
-		return dir_desktop.path===ospath.desktop();
+		// 実体がない環境ならスルー
+		if( fse.existsSync(ospath.desktop()) ){
+			const dir_desktop = await Utility.getDesktop();
+			return dir_desktop.path===ospath.desktop();
+		}else{
+			return true;
+		}
 	},
+
 	async function(){
 		console.log('Utility.getHomeDir()');
 		const dir_home = await Utility.getHomeDir();
