@@ -122,9 +122,9 @@ await file.rename('new-filename.ext');
 自身の実体をゴミ箱に移動する。  
 移動後に解決するpromiseを返す。
 ```js
-await dir.trach();
+await dir.trash();
 
-await file.trach();
+await file.trash();
 ```
 
 
