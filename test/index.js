@@ -34,18 +34,24 @@ const option = {
 
 // Main, readme順
 Test([
-	// Directory
+
+	/// Directory
+
+	// fileへのパスでinstanceが作成できたら失敗
+	// インスタンスがEventEmitter, Directoryを継承していれば成功。
 	async function(){
 		console.log('new Directory(path)');
-		// fileへのパスでinstanceが作成できたら失敗
 		try{
 			const dir = await new Directory('hoge.txt');
 			return false;
 		}catch(e){
 			const dir = await new Directory('./');
-			return dir instanceof Directory;
+			return is.true(
+				dir instanceof Directory
+			);
 		}
 	},
+
 	async function(){
 		console.log('Directory.make()');
 		const dir_tmp = await Directory.make('./tmp');
@@ -61,6 +67,33 @@ Test([
 		process.chdir(cd_before);
 		return cd_before!==cd_after;
 	},
+
+	// 実行前の要素数がDirectory,ofs両方のAPIから見て1以上で、実行後にどちらも要素数になっていれば成功
+	async function(){
+		console.log('Directory#clear()');
+		const dir = await new Directory('./');
+		const num_before_dir = await dir.getContents().then( (arr)=>{
+			return arr.length;
+		});
+		const num_before_fs = await fse.readdir('./').then( (arr)=>{
+			return arr.length;
+		});
+		await dir.clear();
+
+		const num_after_dir = await dir.getContents().then( (arr)=>{
+			return arr.length;
+		});
+		const num_after_fs =	await fse.readdir('./').then( (arr)=>{
+			return arr.length;
+		});
+		return is.true(
+			num_before_dir!==0,
+			num_before_fs!==0,
+			num_after_dir===0,
+			num_after_fs===0
+		);
+	},
+
 	async function(){
 		console.log('Directory#copy(dirPath)');
 		const dir_foo = await new Directory('./foo');
@@ -285,23 +318,28 @@ Test([
 	},
 
 
-	// File
+	/// File
+
+	// ディレクトリのパスで作成できれば失敗。
+	// インスタンスがFile,EventEmitterを継承していれば成功。
 	async function(){
-		console.log('new File(path)');	// dirパスで作成できれば失敗
+		console.log('new File(path)');
 		try{
 			const file = await new File('./');
 			return true;
 		}catch(e){
 			const file = await new File('hoge.txt');
-			return file instanceof File;
+			return is.true(
+				file instanceof File,
+			);
 		}
 	},
 	async function(){
 		console.log('File.make()');
 		const file = await File.make('text.txt', 'hogefugapiyo');
 		return is.true(
-			file instanceof File,
-			fse.existsSync('text.txt')
+			fse.existsSync('text.txt'),
+			file instanceof File
 		);
 	},
 

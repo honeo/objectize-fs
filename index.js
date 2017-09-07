@@ -3,7 +3,7 @@ const console = require('console-wrapper');
 const {is, not, any} = require('@honeo/check');
 
 // Var
-const {cache, validationAndResolve} = require('./lib/shared.js');
+const {cache} = require('./lib/shared.js');
 const ObjectizeFS = Object.create(null); // 返り値
 
 // 先にrequire(File)するとコケる

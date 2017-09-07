@@ -176,7 +176,6 @@ file.path; // Win: "C:\\Users\\username\\filename.ext"
 
 ### Directory
 
-
 #### new Directory(dirpath [, stats])
 引数パスのディレクトリを基にインスタンスを作る。  
 作成したインスタンスを引数に解決するpromiseを返す。
@@ -199,6 +198,14 @@ const dir = await Directory.make('hoge');
 変更後に解決するPromiseを返す。
 ```js
 await dir.cd();
+```
+
+
+#### Directory#clear()
+自身の実体が含むファイル・ディレクトリを全て削除する。  
+削除後に解決するpromiseを返す。
+```js
+await dir.clear();
 ```
 
 
@@ -298,7 +305,6 @@ dir.isDirectory; // true
 
 
 ### File
-
 
 #### new File(filepath [, stats])
 引数パスのファイルを基にfileインスタンスを作る。  
@@ -555,7 +561,7 @@ Utility.cache.expire = 1000*60*3;
 作ったインスタンスを引数に解決するpromiseを返す。
 ```js
 // dir or file or zip
-const instance = await Utility getInstance('path');
+const instance = await Utility.getInstance('path');
 ```
 
 
