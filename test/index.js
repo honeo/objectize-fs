@@ -287,7 +287,6 @@ Test([
 			await dir.rename('foo');
 			return false;
 		}catch(e){
-			console.log(e);
 			return true;
 		}
 	},
@@ -311,6 +310,18 @@ Test([
 		return is.truthy(
 			res1, !res2, res3, res4, !res5, res6, res7.length===8
 		);
+	},
+
+	async function(){
+		console.log('Directory#search() case-callback');
+		const dir = await new Directory('./');
+		const resultArr = await dir.search( (instance)=>{
+			return instance.isFile && instance.ext==='txt';
+		}, {
+			global: true,
+			greedy: true
+		});
+		return resultArr.length===2;
 	},
 
 	async function(){

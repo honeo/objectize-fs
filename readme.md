@@ -264,7 +264,7 @@ const bool = await dir.has('hoge', {
 
 
 #### Directory#list()
-自身が直接含んでいるファイル・ディレクトリ名の配列を取得する。
+自身が直接含んでいるファイル・ディレクトリ名の配列を取得する。  
 取得した配列を引数に解決するpromiseを返す。
 ```js
 const nameArr = await dir.list();
@@ -286,6 +286,11 @@ const option = {
 	global: false
 }
 const dir = await dir.search(/fuga|piyo/, option);
+
+// [...textfile]
+const arr = await dir.search( (instance)=>{
+	return instance.isFile && instance.ext==='txt';
+});
 ```
 
 
