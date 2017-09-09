@@ -108,13 +108,16 @@ const child_process = await file.open();
 * [GitHub - domenic/opener: Opens stuff, like webpages and files and executables, cross-platform](https://github.com/domenic/opener)
 
 
-#### Constractor#rename(string)
+#### Constractor#rename(string [, overwrite])
 自身と実体を引数文字列に改名する。  
-自身を引数に解決するpromiseを返す。
+自身を引数に解決するpromiseを返す。  
 ```js
 await dir.rename('new-dirname');
 
 await file.rename('new-filename.ext');
+
+// overwrite
+await file.rename('new-filename.ext', true);
 ```
 
 

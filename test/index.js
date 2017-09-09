@@ -251,18 +251,47 @@ Test([
 		console.log('Directory#open()');
 		return true;
 	},
+
 	async function(){
 		console.log('Directory#rename()');
 		const dir = await new Directory('foo');
-		const dir_name_before = dir.name;
 		const dir_renamed = await dir.rename('bar');
 		return is.true(
+			!fse.existsSync('foo'),
 			fse.existsSync('bar'),
-			dir.name!==dir_name_before,
+			dir.name==='bar',
 			dir.path===path.join(dir.base, 'bar'),
 			dir===dir_renamed
 		);
 	},
+
+	// option.overwrite 上書き成功ならテスト成功
+	async function(){
+		console.log('Directory#rename(, {overwrite})');
+		const dir = await Directory.make('bar');
+		const dir_renamed = await dir.rename('foo', true);
+		return is.true(
+			!fse.existsSync('bar'),
+			fse.existsSync('foo'),
+			dir.name==='foo',
+			dir.path===path.join(dir.base, 'foo'),
+			dir===dir_renamed
+		);
+	},
+
+	// option.overwrite 上書き失敗すれば成功
+	async function(){
+		console.log('Directory#rename() case-overwrite-fail');
+		const dir = await Directory.make('bar');
+		try{
+			await dir.rename('foo');
+			return false;
+		}catch(e){
+			console.log(e);
+			return true;
+		}
+	},
+
 	async function(){
 		console.log('Directory#size()');
 		const dir = await new Directory('./');
