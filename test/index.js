@@ -9,7 +9,6 @@ const path = require('path');
 const {is, not, any} = require('@honeo/check');
 const {Directory, File, JSON, ZIP, RAR, Utility, cache, debug} = require('../');
 const ospath = require('ospath');
-const jsonfileP = require('jsonfile-promised');
 
 // Var
 const exampleDir = path.resolve('example');
@@ -617,7 +616,7 @@ Test([
 		console.log('JSON#write(obj)');
 		const json = await new JSON('piyo.json');
 		await json.write({piyo2: 'piyo2'});
-		const obj = await jsonfileP.readFile('piyo.json');
+		const obj = await fse.readJson('piyo.json');
 		return obj.piyo2==='piyo2';
 	},
 	async function(){
