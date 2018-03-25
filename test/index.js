@@ -10,6 +10,8 @@ const {is, not, any} = require('@honeo/check');
 const {Directory, File, JSON, ZIP, RAR, Utility, cache, debug} = require('../');
 const ospath = require('ospath');
 
+debug(true);
+
 // Var
 const exampleDir = path.resolve('example');
 const option = {
@@ -141,8 +143,19 @@ Test([
 	async function(){
 		console.log('Directory#get()');
 		const dir = await new Directory('./');
-		const file = await dir.get('hoge.txt');
-		return file.name==='hoge.txt';
+		const res1 = await dir.get('foo');
+		const res2 = await dir.get('hoge.txt');
+		const res3 = await dir.get('foo', {file: false});
+		const res4 = await dir.get('hoge.txt', {directory: false});
+		const res5 = await dir.get('piyo.piyo'); // 存在しないケース
+		const res6 = await dir.get('foo', {async filter(target){
+			const list = await target.list();
+			return !!list.length;
+		}});
+		const res7 = await dir.get('foo', {filter(target){ // 失敗するケース
+			return target.isFile;
+		}});
+		return is.truthy(res1, res2, res3, res4, !res5, res6, !res7);
 	},
 	async function(){
 		console.log('Directory#getContents()');
@@ -159,8 +172,12 @@ Test([
 		const bool4 = await dir.getContents({greedy: true}).then( (arr)=>{
 			return arr.length===8;
 		});
+		const _bool5 = await dir.getContents({async filter(target){
+			return target.isZIP;
+		}});
+		const bool5 = _bool5.length===1;
 		return is.true(
-			bool1, bool2, bool3, bool4
+			bool1, bool2, bool3, bool4, bool5
 		);
 	},
 	async function(){
@@ -205,7 +222,13 @@ Test([
 		const res3 = await dir.has('foo', {file: false});
 		const res4 = await dir.has('hoge.txt', {directory: false});
 		const res5 = await dir.has('piyo.piyo'); // 存在しないケース
-		return is.true(res1, res2, res3, res4, !res5);
+		const res6 = await dir.has('foo', {filter(target){
+			return target.isDirectory;
+		}});
+		const res7 = await dir.has('foo', {filter(target){ // 失敗するケース
+			return target.isFile;
+		}});
+		return is.true(res1, res2, res3, res4, !res5, res6, !res7);
 	},
 
 	async function(){
@@ -319,9 +342,18 @@ Test([
 		const res4 = await dir.search(/^foo$/);
 		const res5 = await dir.search(/^fooo$/);
 		const res6 = await dir.search('foobar.txt', {file:true, directory:false, greedy: true});
-		const res7 = await dir.search(/.*/, {greedy: true, global: true});
+		const res7 = await dir.search(/./, {greedy: true, global: true});
+		const res8 = await dir.search(/./, {
+			file: true,
+			directory: false,
+			greedy: true,
+			global: true,
+			async filter(file){
+				return file.ext==='json'
+			}
+		});
 		return is.truthy(
-			res1, !res2, res3, res4, !res5, res6, res7.length===8
+			res1, !res2, res3, res4, !res5, res6, res7.length===8, res8.length===1
 		);
 	},
 

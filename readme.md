@@ -181,6 +181,19 @@ file.path; // Win: "C:\\Users\\username\\filename.ext"
 
 ### Directory
 
+#### options
+いくつかの関数は引数に渡すオブジェクトで挙動を制御できる。
+
+| key       | type     | description                                                          |
+|:--------- |:-------- | -------------------------------------------------------------------- |
+| directory | boolean  | 結果にDirectoryインスタンスを含むか。                                |
+| file      | boolean  | 結果にFileインスタンスを含むか。                                     |
+| filter    | function | 走査中のインスタンス毎にそれを引数に実行し、trueを返したものを結果に含む。   |
+| greedy    | boolean  | 一部メソッドのみ。下位ディレクトリに対して同じ処理を繰り返すか。     |
+| global    | boolean  | 一部メソッドのみ。全てのコンテンツを走査して結果を配列で取得するか。 |
+
+
+
 #### new Directory(dirpath [, stats])
 引数パスのディレクトリを基にインスタンスを作る。  
 作成したインスタンスを引数に解決するpromiseを返す。
@@ -214,33 +227,57 @@ await dir.clear();
 ```
 
 
-#### Directory#get(string [, option])
+#### Directory#get(string [, options])
 自身が直接含む、引数文字列と一致する名前のファイル・ディレクトリのインスタンスかnullを取得する。  
 取得した結果を引数に解決するpromiseを返す。  
-引数2のオブジェクトで対象を絞れる。
 ```js
-const file = await dir.get('file.txt', {file: true, directory: false});
+const file = await dir.get('file.txt');
+
+// options
+const dir_foobar_empty = await dir.get('foobar', {
+	file: false,
+	directory: true,
+	async filter(dir){
+		const list = await dir.list();
+		return list.length===0;
+	}
+});
 ```
 
 
-#### Directory#getContents({...})
+#### Directory#getContents([options])
 自身が直接含むファイル・ディレクトリインスタンスを配列で取得する。  
 取得した配列を引数に解決するpromiseを返す。  
-引数2のオブジェクトで対象を絞れる。
 ```js
 const arr = await dir.getContents();
-const fileArr = await dir.getContents({directory: false});
-const dirArr = await dir.getContents({file: false});
-const arr_deep = await dir.getContents({greedy: true});
+
+// options
+const fileArr_deep_under1KB = await dir.getContents({
+	directory: false,
+	file: true,
+	greedy: true,
+	async filter(file){
+		const size = await file.size();
+		return size < 1024;
+	}}
+);
 ```
 
 
-#### Directory#getDirectories(greedy)
+#### Directory#getDirectories([options])
 自身が含むディレクトリインスタンスを配列で取得する。  
 取得した配列を引数に解決するpromiseを返す。
 ```js
 const dirs = await dir.getDirectories();
-const dirs_deep = await dir.getDirectories(true);
+
+// options
+const dirArr_deep_over1KB = await dir.getDirectories({
+	greedy: true,
+	async filter(dir){
+		const size = await dir.size();
+		return size > 1024;
+	}}
+);
 ```
 * Alias
  	- Directory#getDirs()
@@ -251,17 +288,32 @@ const dirs_deep = await dir.getDirectories(true);
 取得した配列を引数に解決するpromiseを返す。
 ```js
 const files = await dir.getFiles();
-const files_deep = await dir.getFiles(true);
+
+// options
+const fileArr_deep_txt = await dir.getDirectories({
+	greedy: true,
+	filter(file){
+		return file.ext==='txt';
+	}}
+);
 ```
 
 
-#### Directory#has(string [, option])
-Directory#get()のbooleanを取得する版。
+#### Directory#has(string [, options])
+自身が引数文字列名のファイル・ディレクトリを直接含んでいるか調べる。
+結果のbooleanを引数に解決するpromiseを返す。
 ```js
-const bool = await dir.has('hoge', {
+const bool = await dir.has('hoge');
+
+// options
+const hasSecretTextFile = await dir.has('fuga', {
 	file: true,
-	directory: true}
-);
+	directory: false,
+	async filter(file){
+		const string = await file.read();
+		return string.includes('password');
+	}
+});
 ```
 
 
@@ -273,27 +325,32 @@ const nameArr = await dir.list();
 ```
 
 
-#### Directory#search(string or regexp [, option])
-自身の含む、引数の文字列or正規表現と一致する名前を持つファイル・ディレクトリインスタンスを取得する。  
-取得したインスタンスかnullを引数に解決するpromiseを返す。  
-option.globalがtrueなら代わりに一致したインスタンスの配列を引数に解決するpromiseを返す。
+#### Directory#search(rule, [, options])
+自身の含む、引数1の条件と一致する名前を持つファイル・ディレクトリインスタンスを取得する。  
+取得したインスタンスかnullを引数に解決するpromiseを返す。
 ```js
 const file = await dir.search('hoge.txt');
-
-// default
-const option = {
-	directory: true,
-	file: true,
-	greedy: false,
-	global: false
-}
-const dir = await dir.search(/fuga|piyo/, option);
-
-// [...textfile]
-const arr = await dir.search( (instance)=>{
+const dir = await dir.search(/fuga|piyo/);
+const file_txt = await dir.search( (instance)=>{
 	return instance.isFile && instance.ext==='txt';
 });
+
+// options
+const dirArr_deep_notEmpty = await dir.search(/./, {
+	file: false,
+	directory: true,
+	global: true,
+	greedy: true,
+	async filter(dir){
+		const list = dir.list();
+		return list!==0;
+	}
+});
 ```
+##### 引数1
+* string: ファイル名との完全一致。
+* regexp: ファイル名とのmatch.
+* function: インスタンスを引数に実行し、trueを返したもの。
 
 
 #### Directory#size()
@@ -324,7 +381,7 @@ const file = await new File('./filename.ext');
 ```
 
 
-#### File.make(path, content [, option])
+#### File.make(path, content [, filedataoptions])
 引数1のパスにファイルを作成する。  
 作成したファイルのFileインスタンスを引数に解決するpromiseを返す。  
 引数3については[File System | Node.js Documentation](https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options)を参照。
@@ -570,7 +627,7 @@ Utility.cache.expire = 1000*60*3;
 引数パスを基に対応するインスタンスを作る。  
 作ったインスタンスを引数に解決するpromiseを返す。
 ```js
-// dir or file or zip
+// dir or file
 const instance = await Utility.getInstance('path');
 ```
 
