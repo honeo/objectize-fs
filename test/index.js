@@ -183,6 +183,20 @@ Test([
 			arr2.length===6
 		);
 	},
+
+	async function(){
+		console.log('Directory#getParentDirectory()');
+		const dir_foo = await new Directory('foo');
+		const dir_bar = await new Directory('foo/bar');
+		return dir_foo===(await dir_bar.getParentDirectory());
+	},
+	async function(){
+		console.log('Directory#getParentDir()');
+		const dir_foo = await new Directory('foo');
+		const dir_bar = await new Directory('foo/bar');
+		return dir_foo===(await dir_bar.getParentDir());
+	},
+
 	async function(){
 		console.log('Directory#has()');
 		const dir = await new Directory('./');
@@ -463,12 +477,20 @@ Test([
 		const file = await new File('hoge.txt');
 		return file.ext==='txt';
 	},
+
 	async function(){
 		console.log('File#getParentDirectory()');
 		const file = await new File('foo/bar/foobar.txt');
 		const parentDir = await file.getParentDirectory();
 		return parentDir.name==='bar';
 	},
+	async function(){
+		console.log('File#getParentDir()');
+		const file = await new File('foo/bar/foobar.txt');
+		const parentDir = await file.getParentDir();
+		return parentDir.name==='bar';
+	},
+
 	async function(){
 		console.log('File#isFile');
 		const file = await new File('hoge.txt');

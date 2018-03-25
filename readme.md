@@ -72,6 +72,8 @@ await instance.delete();
 ```js
 const parentDir = await instance.getParentDirectory();
 ```
+* Alias
+	- Constractor#getParentDir()
 
 
 #### Constractor#isLive()
@@ -241,7 +243,7 @@ const dirs = await dir.getDirectories();
 const dirs_deep = await dir.getDirectories(true);
 ```
 * Alias
- * Directory#getDirs()
+ 	- Directory#getDirs()
 
 
 #### Directory#getFiles(greedy)
@@ -307,7 +309,7 @@ const size = await dir.size();
 dir.isDirectory; // true
 ```
 * Alias
- * Directory#isDir
+	- Directory#isDir
 
 
 
@@ -338,7 +340,7 @@ const file = await File.make('hoge.txt', 'hogefugapiyo');
 await file.autoExt();
 ```
 * 対応する拡張子一覧
- * [sindresorhus/file-type: Detect the file type of a Buffer/Uint8Array](https://github.com/sindresorhus/file-type#supported-file-types)
+	- [sindresorhus/file-type: Detect the file type of a Buffer/Uint8Array](https://github.com/sindresorhus/file-type#supported-file-types)
 
 #### File#read([encode])
 自身の内容を文字列で取得する。  
