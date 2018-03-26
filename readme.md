@@ -194,21 +194,28 @@ file.path; // Win: "C:\\Users\\username\\filename.ext"
 
 
 
-#### new Directory(dirpath [, stats])
+#### new Directory(dirpath [, config])
 引数パスのディレクトリを基にインスタンスを作る。  
 作成したインスタンスを引数に解決するpromiseを返す。
 ```js
 const dir = await new Directory('path');
+
+// config
+const dir = await new Directory('path', {
+	stats: fs.statSync(path)
+});
 ```
 
 
 #### Directory.make(path [, mode])
-引数1のパスにディレクトリを作成する。  
+引数1パスのディレクトリが存在しなければ作成する。  
 作成したディレクトリのDirectoryインスタンスを引数に解決するpromiseを返す。
-引数2については[File System | Node.js Documentation](https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_mode)を参照。
 ```js
 const dir = await Directory.make('hoge');
 ```
+* 引数2について
+	- [File System | Node.js Documentation](https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_mode)を参照。
+
 
 
 #### Directory#cd()
@@ -373,11 +380,16 @@ dir.isDirectory; // true
 
 ### File
 
-#### new File(filepath [, stats])
+#### new File(filepath [, config])
 引数パスのファイルを基にfileインスタンスを作る。  
 作ったインスタンスを引数に解決するpromiseを返す。
 ```js
 const file = await new File('./filename.ext');
+
+// config
+const file = await new File('./filename.ext', {
+	stats: fs.statSync('./filename.ext')
+});
 ```
 
 

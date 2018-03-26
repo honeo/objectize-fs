@@ -10,7 +10,7 @@ const {is, not, any} = require('@honeo/check');
 const {Directory, File, JSON, ZIP, RAR, Utility, cache, debug} = require('../');
 const ospath = require('ospath');
 
-debug(true);
+// debug(true);
 
 // Var
 const exampleDir = path.resolve('example');
