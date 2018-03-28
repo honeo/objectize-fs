@@ -96,7 +96,7 @@ await dir.move('foo');
 await file.move('foo');
 ```
 ##### 注意
-inodeナンバーは変化する。
+inodeナンバーが変化する。
 
 
 #### Constractor#open()
