@@ -917,6 +917,17 @@ Test([
 		console.log('Utility.getTempDir()');
 		const dir_temp = await Utility.getTempDir();
 		return dir_temp.path===ospath.tmp();
+	},
+
+	async function(){
+		console.log('Utility.download()');
+		const file = await Utility.download('http://example.com/', './index.html');
+		const size = await file.size();
+		const text = await file.read();
+		return is.true(
+			0 < size,
+			text.includes('Example')
+		);
 	}
 
 ], option).catch( (error)=>{

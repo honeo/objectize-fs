@@ -394,12 +394,15 @@ const file = await new File('./filename.ext', {
 
 
 #### File.make(path, content [, filedataoptions])
-引数1のパスにファイルを作成する。  
+引数1のパスに、引数2の内容でファイルを作成する。  
 作成したファイルのFileインスタンスを引数に解決するpromiseを返す。  
-引数3については[File System | Node.js Documentation](https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options)を参照。
 ```js
 const file = await File.make('hoge.txt', 'hogefugapiyo');
 ```
+* 引数3
+	- [File System | Node.js Documentation](https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options)
+
+
 
 #### File#autoExt()
 自身の実体から拡張子を推測して、可能なら改名する。  
@@ -624,16 +627,14 @@ rar.isRAR; // true
 ### Utility
 コンストラクタじゃないよ。
 
-#### Utility.cache
-キャッシュを管理するオブジェクト。  
-詳しくは[honeo/lru-cache](https://github.com/honeo/lru-cache)を参照。
-```js
-// default 1000 => 300
-Utility.cache.capacity = 300;
 
-// default 1h => 3m
-Utility.cache.expire = 1000*60*3;
+#### Utilyti.download(url, filepath)
+引数1のURLからファイルをダウンロードして引数2のパスに保存する。  
+保存したFileインスタンスを引数に解決するpromiseを返す。
+```js
+const file = await Utility.download('http://example.com/hoge.txt', './hoge.txt');
 ```
+
 
 #### Utility.getInstance(path [, stats])
 引数パスを基に対応するインスタンスを作る。  
@@ -651,4 +652,16 @@ const instance = await Utility.getInstance('path');
 const dir_desktop = await Utility.getDesktop();
 const dir_home = await Utility.getHomeDir();
 const dir_Temp = await Utility.getTempDir();
+```
+
+
+#### Utility.cache
+キャッシュを管理するオブジェクト。  
+詳しくは[honeo/lru-cache](https://github.com/honeo/lru-cache)を参照。
+```js
+// default 1000 => 300
+Utility.cache.capacity = 300;
+
+// default 1h => 3m
+Utility.cache.expire = 1000*60*3;
 ```
