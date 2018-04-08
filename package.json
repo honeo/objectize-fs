@@ -1,6 +1,6 @@
 {
   "name": "objectize-fs",
-  "version": "0.4.6",
+  "version": "0.5.0",
   "description": "fsをオブジェクトっぽく抽象化して扱う",
   "main": "index.js",
   "scripts": {
