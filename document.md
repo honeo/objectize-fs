@@ -13,6 +13,7 @@
 
 
 ## TODO
+* testをコンストラクタ別に分割する
 * インスタンス生成を同期処理に
     - Statsによる存在とfile/dirの確認は実際にread,writeする際でいいのでは。
 * キャッシュのテスト
@@ -136,7 +137,7 @@ debug(false); // off
 * example
     - テスト用のサンプルファイルいろいろ。
     - 暗号化のパスはpassword
-
+    - filesディレクトリの中身以外は固定。
 
 ## 依存モジュール
 * @honeo/check
@@ -154,7 +155,7 @@ debug(false); // off
 * fs-extra
     - fs拡張版。
 * jimp
-    - 画像編集。
+    - 画像の変換・編集。
 * jsonfile-promised
     - json操作モジュールjsonfileのpromise版。
 * natives

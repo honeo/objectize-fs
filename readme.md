@@ -406,10 +406,13 @@ const file = await File.make('hoge.txt', 'hogefugapiyo');
 
 #### File#autoExt()
 自身の実体から拡張子を推測して、可能なら改名する。  
-自身を引数に解決するpromiseを返す。
+なにもしなければ自身を、改名していれば新しいインスタンスを引数に解決するpromiseを返す。
 ```js
 // filename => filename.ext
 await file.autoExt();
+
+// hoge => hoge.jpg
+const image = await file.autoExt();
 ```
 * 対応する拡張子一覧
 	- [sindresorhus/file-type: Detect the file type of a Buffer/Uint8Array](https://github.com/sindresorhus/file-type#supported-file-types)
@@ -460,6 +463,27 @@ file.isFile; // true
 ```
 
 
+### Image
+[File](#File)を継承している。
+* 対応形式
+	- bmp, jpg, png
+
+#### new Image()
+引数パスの画像ファイルを元にImageインスタンスを作る。  
+作ったインスタンスを引数に解决するpromiseを返す。
+```js
+const image = await new Image('hoge.jpg');
+```
+
+#### Image.make(path, url or buffer)
+引数1パスに、引数2を元に画像ファイルの実体を作成する。  
+作成した画像ファイルのImageインスタンスを引数に解决するpromiseを返す。
+```js
+const image = await Image.make(
+	'./hoge.jpg',
+	'http://example.com/hoge.jpg'
+);
+```
 
 
 ### JSON

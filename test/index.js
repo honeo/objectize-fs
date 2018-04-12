@@ -161,16 +161,16 @@ Test([
 		console.log('Directory#getContents()');
 		const dir = await new Directory('./');
 		const bool1 = await dir.getContents().then( (arr)=>{
-			return arr.length===6;
+			return arr.length===7;
 		});
 		const bool2 = await dir.getContents({file: false}).then( (arr)=>{
-			return arr.length===1;
+			return arr.length===2;
 		});
 		const bool3 = await dir.getContents({directory: false}).then( (arr)=>{
 			return arr.length===5;
 		});
 		const bool4 = await dir.getContents({greedy: true}).then( (arr)=>{
-			return arr.length===8;
+			return arr.length===9;
 		});
 		const _bool5 = await dir.getContents({async filter(target){
 			return target.isZIP;
@@ -186,8 +186,8 @@ Test([
 		const arr1 = await dir.getDirectories();
 		const arr2 = await dir.getDirs({greedy: true});
 		return is.true(
-			arr1.length===1,
-			arr2.length===2
+			arr1.length===2,
+			arr2.length===3
 		);
 	},
 	async function(){
@@ -235,7 +235,7 @@ Test([
 		console.log('Directory#list()');
 		const dir = await new Directory('./');
 		const arr = await dir.list();
-		return arr.length===6;
+		return arr.length===7;
 	},
 	async function(){
 		console.log('Directory#isLive()');
@@ -353,7 +353,7 @@ Test([
 			}
 		});
 		return is.truthy(
-			res1, !res2, res3, res4, !res5, res6, res7.length===8, res8.length===1
+			res1, !res2, res3, res4, !res5, res6, res7.length===9, res8.length===1
 		);
 	},
 
@@ -440,6 +440,14 @@ Test([
 			result.basename==='fuga',
 			result.ext==='zip'
 		);
+	},
+
+	async function(){
+		console.log('File#autoExt() インスタンス変化');
+		await fse.copy('./fuga.zip', './fuga');
+		const file = await new File('./fuga');
+		const zip = await file.autoExt();
+		return zip.isZIP;
 	},
 
 	async function(){
