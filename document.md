@@ -18,6 +18,7 @@
 * キャッシュのテスト
     - キャッシュモジュールとこれ両方にイベント実装したら書く。
 * RARとZIPでAPIが違うのを統一したい。
+    - Archiveコンストラクタにする？
 
 ### Directory
 * #list()
@@ -152,6 +153,8 @@ debug(false); // off
     - 拡張子の推測用。
 * fs-extra
     - fs拡張版。
+* jimp
+    - 画像編集。
 * jsonfile-promised
     - json操作モジュールjsonfileのpromise版。
 * natives

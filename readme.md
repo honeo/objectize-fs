@@ -510,13 +510,22 @@ json.isJSON; // true
 
 
 #### JSON#space
-JSON.make(), JSON#write()実行時の整形に使う値。  
-詳しくは[JSON.stringify() - JavaScript | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)を参照。
+自身の整形に使う値。  
 ```js
-json.space; // 2
-json.space = '\t';
-```
+json.space = 2;
+/*
+{
+  "key": "value"
+}
+*/
 
+json.space = '\t';
+/*
+{
+	"key": "value"
+}
+*/
+```
 
 
 
