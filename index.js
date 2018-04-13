@@ -9,6 +9,7 @@ const ObjectizeFS = Object.create(null); // 返り値
 // 先にrequire(File)するとコケる
 ObjectizeFS.Directory = require('./lib/directory.js');
 ObjectizeFS.File = require('./lib/file.js');
+ObjectizeFS.Image = require('./lib/image');
 ObjectizeFS.JSON = require('./lib/json.js');
 ObjectizeFS.ZIP = require('./lib/zip.js');
 ObjectizeFS.RAR = require('./lib/rar.js');

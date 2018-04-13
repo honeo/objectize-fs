@@ -1,3 +1,7 @@
+/*
+	順次コンストラクタ別に分割中
+*/
+
 const packagejson = require('../package.json');
 console.log(`${packagejson.name} v${packagejson.version}`);
 
@@ -7,7 +11,7 @@ const Archiver = require('archiver');
 const fse = require('fs-extra');
 const path = require('path');
 const {is, not, any} = require('@honeo/check');
-const {Directory, File, JSON, ZIP, RAR, Utility, cache, debug} = require('../');
+const {Directory, File, Image, JSON, ZIP, RAR, Utility, cache, debug} = require('../');
 const ospath = require('ospath');
 
 // debug(true);
@@ -938,6 +942,12 @@ Test([
 		);
 	}
 
-], option).catch( (error)=>{
+], option).then( ()=>{
+
+	require('./test-image');
+
+
+
+}).catch( (error)=>{
 	console.log(error);
 });

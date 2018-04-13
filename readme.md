@@ -463,10 +463,12 @@ file.isFile; // true
 ```
 
 
+
 ### Image
 [File](#File)を継承している。
 * 対応形式
 	- bmp, jpg, png
+
 
 #### new Image()
 引数パスの画像ファイルを元にImageインスタンスを作る。  
@@ -476,7 +478,7 @@ const image = await new Image('hoge.jpg');
 ```
 
 #### Image.make(path, url or buffer)
-引数1パスに、引数2を元に画像ファイルの実体を作成する。  
+引数1のパスに、引数2のURLかbufferを元に画像ファイルの実体を作成する。  
 作成した画像ファイルのImageインスタンスを引数に解决するpromiseを返す。
 ```js
 const image = await Image.make(
@@ -485,6 +487,12 @@ const image = await Image.make(
 );
 ```
 
+#### Image#isImage
+```js
+image.isImage; // true
+
+
+```
 
 ### JSON
 [File](#File)を継承している。

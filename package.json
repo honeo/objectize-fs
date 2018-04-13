@@ -13,7 +13,7 @@
     "test": "test"
   },
   "dependencies": {
-    "@honeo/check": "^1.0.2",
+    "@honeo/check": "^1.1.0",
     "@honeo/lru-cache": "^1.0.0",
     "console-wrapper": "^1.1.0",
     "file-type": "^5.2.0",
