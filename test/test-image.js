@@ -110,6 +110,21 @@ return Test([
 		);
 	},
 
+
+	async function(){
+		console.log('Image#output()');
+		const image_bmp = await new Image('./sakura_modoki.bmp');
+		const image_png = await image_bmp.output('./output.png', {
+			greyscale: true,
+			quality: 100,
+			resize: ['jimp.AUTO', 250]
+		});
+		return is.true(
+			await fse.exists('./output.png'),
+			await image_bmp.size() > await image_png.size()
+		);
+	},
+
 	async function(){
 		console.log('Image#isImage');
 		const image_bmp = await new Image('./sakura_modoki.bmp');

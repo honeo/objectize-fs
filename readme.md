@@ -470,12 +470,14 @@ file.isFile; // true
 	- bmp, jpg, png
 
 
+
 #### new Image()
 引数パスの画像ファイルを元にImageインスタンスを作る。  
 作ったインスタンスを引数に解决するpromiseを返す。
 ```js
 const image = await new Image('hoge.jpg');
 ```
+
 
 #### Image.make(path, url or buffer)
 引数1のパスに、引数2のURLかbufferを元に画像ファイルの実体を作成する。  
@@ -487,12 +489,28 @@ const image = await Image.make(
 );
 ```
 
+
+#### Image#output(path, options)
+引数1パスに、引数2の設定で画像ファイルの実体を作成する。  
+作成した画像ファイルのImageインスタンスを引数に解决するpromiseを返す。
+```js
+// png, greyscale, auto*250px
+const imageB = await imageA.output('./image-b.png', {
+	greyscale: true,
+	quality: 100,
+	resize: ['jimp.AUTO', 250]
+});
+```
+optionsについては以下を参照。
+- [oliver-moran/jimp: An image processing library written entirely in JavaScript for Node, with zero external or native dependencies.](https://github.com/oliver-moran/jimp)
+
+
 #### Image#isImage
 ```js
 image.isImage; // true
-
-
 ```
+
+
 
 ### JSON
 [File](#File)を継承している。

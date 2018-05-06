@@ -28,7 +28,8 @@
 
 ### File
 * File#getMimeType()
-    - 実体からMIMEタイプの文字列を取得。
+    - 実体からMIMEタイプとするべき文字列を取得。
+    - Fileインスタンス自身のやることではない気がする。
 
 ### ZIP
 先にzip操作モジュールを弄る必要がある。
@@ -119,6 +120,8 @@ debug(false); // off
     - Directoryコンストラクタを返す。
 * file.js
     - Fileコンストラクタを返す。
+* image.js
+    - Imageコンストラクタを返す。
 * json.js
     - JSONコンストラクタを返す。
 * zip.js
